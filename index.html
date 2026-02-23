@@ -56,17 +56,16 @@
       overflow:hidden;
     }
 
-    /* Pages */
     .page{display:none; padding:26px 18px;}
     .page.active{display:block; animation: pop .25s ease;}
-    @keyframes pop{from{transform:translateY(8px); opacity:.0} to{transform:translateY(0); opacity:1}}
+    @keyframes pop{from{transform:translateY(8px); opacity:0} to{transform:translateY(0); opacity:1}}
 
     .badge{
       display:inline-flex; gap:10px; align-items:center;
       padding: 10px 14px; border-radius:999px;
       background: rgba(0,0,0,.18);
       border: 1px solid rgba(255,255,255,.18);
-      font-weight:800; letter-spacing:.2px;
+      font-weight:900; letter-spacing:.2px;
     }
     .dot{width:10px;height:10px;border-radius:999px;background:#fff;opacity:.85;box-shadow:0 0 16px rgba(255,255,255,.8)}
     h1{margin:12px 0 8px; font-size:clamp(28px,5vw,54px); line-height:1.06; letter-spacing:-.6px;}
@@ -77,14 +76,14 @@
       display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:18px;
     }
     .btn{
-      border:0; border-radius:999px; padding:12px 18px; font-weight:900;
+      border:0; border-radius:999px; padding:12px 18px; font-weight:1000;
       cursor:pointer; transition: transform .12s ease, filter .15s ease, background .2s ease;
       display:inline-flex; align-items:center; gap:10px; user-select:none;
     }
     .btn:active{transform:scale(.98)}
     .btn.primary{background:rgba(255,255,255,.92); color:#7c3aed;}
-    .btn.ghost{background:rgba(0,0,0,.18); color:#fff; border:1px solid rgba(255,255,255,.20);}
     .btn.danger{background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.22);}
+    .btn.ghost{background:rgba(0,0,0,.18); color:#fff; border:1px solid rgba(255,255,255,.20);}
     .btn:hover{filter:brightness(1.06)}
 
     .divider{height:1px;background:rgba(255,255,255,.16);}
@@ -94,10 +93,10 @@
     .pill{
       padding:9px 12px; border-radius:999px;
       background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18);
-      color:rgba(255,255,255,.9); font-weight:750; font-size:13px;
+      color:rgba(255,255,255,.9); font-weight:800; font-size:13px;
     }
 
-    /* Cute question card */
+    /* Question box */
     .qbox{
       margin:18px auto 0;
       max-width:760px;
@@ -106,18 +105,43 @@
       border-radius: 18px;
       padding: 16px;
       text-align:center;
+      position: relative; /* IMPORTANT for moving button inside */
+      overflow: hidden;   /* keep inside */
+      min-height: 210px;
     }
     .qbox p{margin:8px 0 0; color:rgba(255,255,255,.82); line-height:1.6}
     .bigQ{font-size: clamp(20px, 3.2vw, 28px); font-weight: 1000; letter-spacing:-.3px; margin:0}
 
-    /* No button “lari” */
-    #btnNo{position:relative;}
+    /* The buttons area baseline */
+    .btnRow{
+      margin-top:14px;
+      position: relative;
+      height: 70px; /* room for No to move */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+    }
+
+    /* No button will be absolutely positioned inside btnRow */
+    #btnNo{
+      position:absolute;
+      left: calc(50% + 90px);
+      top: 6px;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+    #btnYes{
+      position: relative;
+      z-index: 2;
+    }
+
     .shake{animation: shake .22s ease;}
     @keyframes shake{
-      0%,100%{transform:translateX(0)}
-      25%{transform:translateX(-4px)}
-      50%{transform:translateX(4px)}
-      75%{transform:translateX(-2px)}
+      0%,100%{transform:translateX(-50%)}
+      25%{transform:translateX(calc(-50% - 6px))}
+      50%{transform:translateX(calc(-50% + 6px))}
+      75%{transform:translateX(calc(-50% - 3px))}
     }
 
     /* Letter & Gallery */
@@ -205,10 +229,9 @@
 
           <div class="actions">
             <button class="btn primary" id="btnNext1">Next ➜</button>
-            <button class="btn ghost" id="btnMusic">▶ Play Music</button>
           </div>
 
-          <div class="footer">Tip: Tekan Play Music dulu, lepas tu Next 😭❤️</div>
+          <div class="footer">Tekan Next… ada soalan comel lepas ni 😭❤️</div>
         </div>
       </section>
 
@@ -221,17 +244,17 @@
           <h1>Okay Zulaikha…</h1>
           <p class="sub">Jawab jujur tau 😌</p>
 
-          <div class="qbox">
+          <div class="qbox" id="qbox">
             <div class="bigQ">Awak sayang saya tak? 🥺</div>
-            <p>(Kalau tekan “No” nanti dia degil sikit… sebab saya nak awak tekan “Yes” 😭)</p>
+            <p>(Kalau tekan “No”… dia akan pindah tempat lain. Hehe 😭)</p>
 
-            <div class="actions" style="margin-top:14px">
+            <div class="btnRow" id="btnRow">
               <button class="btn primary" id="btnYes">Yes 💖</button>
               <button class="btn danger" id="btnNo">No 🙃</button>
             </div>
 
-            <p id="noText" style="display:none; margin-top:10px; font-weight:800">
-              Eh jangan la… cuba tekan YES 😭❤️
+            <p id="noText" style="display:none; margin-top:10px; font-weight:900">
+              Ehh jangan la… tekan YES please 😭❤️
             </p>
           </div>
 
@@ -296,7 +319,7 @@ Saya sayang awak… banyak sangat. 😭❤️
               <div class="photo"><img src="gambar2.jpg" alt="gambar2"></div>
               <div class="photo"><img src="gambar3.jpg" alt="gambar3"></div>
             </div>
-            <div class="footer">Music: <span style="opacity:.9">lagu.mp3</span></div>
+            <div class="footer">Music: <span style="opacity:.9">Auto play selepas tekan YES 💖</span></div>
           </div>
         </div>
       </section>
@@ -309,14 +332,14 @@ Saya sayang awak… banyak sangat. 😭❤️
       <img id="lbImg" src="" alt="preview">
     </div>
 
-    <!-- Audio -->
-    <audio id="music" loop>
+    <!-- Audio (autoplay start after YES) -->
+    <audio id="music" loop preload="auto">
       <source src="lagu.mp3" type="audio/mpeg">
     </audio>
   </div>
 
   <script>
-    // ---- Page navigation
+    // ---- Pages
     const pages = ["p1","p2","p3"].map(id => document.getElementById(id));
     function showPage(n){
       pages.forEach(p => p.classList.remove("active"));
@@ -329,7 +352,7 @@ Saya sayang awak… banyak sangat. 😭❤️
     document.getElementById("btnBack2").addEventListener("click", ()=> showPage(0));
     document.getElementById("btnRestart").addEventListener("click", ()=> showPage(0));
 
-    // ---- Typing page 1 (sweet)
+    // ---- Typing (page 1)
     const typing1 = document.getElementById("typing1");
     const t1 = "Zulaikha… hari ni saya cuma nak cakap: Selamat Hari Lahir ❤️  |  Semoga awak sentiasa bahagia, walau apa pun jadi ✨";
     let i = 0;
@@ -340,59 +363,53 @@ Saya sayang awak… banyak sangat. 😭❤️
       }
     })();
 
-    // ---- Yes/No logic (No stay + lari comel)
+    // ---- No button move (NOT disappear)
     const btnNo = document.getElementById("btnNo");
     const btnYes = document.getElementById("btnYes");
     const noText = document.getElementById("noText");
+    const btnRow = document.getElementById("btnRow");
 
+    function moveNo(){
+      // Boundaries within btnRow
+      const W = btnRow.clientWidth;
+      const H = btnRow.clientHeight;
+
+      const bw = btnNo.offsetWidth;
+      const bh = btnNo.offsetHeight;
+
+      const pad = 6;
+      const maxX = Math.max(pad, W - bw - pad);
+      const maxY = Math.max(pad, H - bh - pad);
+
+      // Random position, but try avoid covering YES
+      let x = Math.random() * maxX;
+      let y = Math.random() * maxY;
+
+      // keep it more to the right side mostly (cute)
+      x = Math.max(W * 0.45, x);
+
+      btnNo.style.left = x + "px";
+      btnNo.style.top = y + "px";
+    }
+
+    // Move when hover OR click
     btnNo.addEventListener("mouseenter", moveNo);
-    btnNo.addEventListener("click", () => {
+    btnNo.addEventListener("touchstart", (e)=>{ e.preventDefault(); moveNo(); }, {passive:false});
+    btnNo.addEventListener("click", ()=>{
       noText.style.display = "block";
       btnNo.classList.add("shake");
-      setTimeout(()=>btnNo.classList.remove("shake"), 250);
+      setTimeout(()=>btnNo.classList.remove("shake"), 260);
       moveNo();
       burst(12);
     });
 
-    function moveNo(){
-      // move within question box area
-      const box = btnNo.closest(".qbox");
-      const rect = box.getBoundingClientRect();
-      const pad = 18;
-      const x = Math.random() * (rect.width - btnNo.offsetWidth - pad*2);
-      const y = Math.random() * 70; // limited height to stay cute
-      btnNo.style.position = "relative";
-      btnNo.style.left = (x - rect.width/4) + "px";
-      btnNo.style.top  = (y - 20) + "px";
-    }
-
-    btnYes.addEventListener("click", () => {
-      showPage(2);
-      confettiBurst(80);
-    });
-
-    // ---- Music toggle
+    // ---- YES: go page3 + autoplay music
     const music = document.getElementById("music");
-    const btnMusic = document.getElementById("btnMusic");
-    let playing = false;
-
-    async function toggleMusic(){
-      try{
-        if(!playing){
-          await music.play();
-          playing = true;
-          btnMusic.textContent = "⏸ Pause Music";
-          burst(10);
-        }else{
-          music.pause();
-          playing = false;
-          btnMusic.textContent = "▶ Play Music";
-        }
-      }catch(e){
-        alert("Browser block autoplay. Tekan sekali lagi ya 😊");
-      }
-    }
-    btnMusic.addEventListener("click", toggleMusic);
+    btnYes.addEventListener("click", async () => {
+      showPage(2);
+      confettiBurst(90);
+      try { await music.play(); } catch(e) { /* if blocked, still okay */ }
+    });
 
     // ---- Lightbox
     const lb = document.getElementById("lightbox");
@@ -406,21 +423,21 @@ Saya sayang awak… banyak sangat. 😭❤️
     document.getElementById("lbClose").addEventListener("click", ()=> lb.style.display="none");
     lb.addEventListener("click", (e)=>{ if(e.target===lb) lb.style.display="none"; });
 
-    // ---- Sparkles background (soft pink dots)
+    // ---- Sparkles background
     const canvas = document.getElementById("sparkles");
     const ctx = canvas.getContext("2d");
-    let W,H,particles=[];
+    let CW,CH,particles=[];
     function resize(){
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      W = canvas.width; H = canvas.height;
+      CW = canvas.width; CH = canvas.height;
     }
     resize();
     window.addEventListener("resize", resize);
 
     function rand(min,max){return Math.random()*(max-min)+min;}
     function makeParticle(x,y,big=false){
-      return { x:x??rand(0,W), y:y??rand(0,H),
+      return { x:x??rand(0,CW), y:y??rand(0,CH),
         r: big?rand(3,6):rand(1.2,3.2),
         vy: rand(0.2,0.85), vx: rand(-0.25,0.25),
         a: rand(0.25,0.85)
@@ -429,12 +446,12 @@ Saya sayang awak… banyak sangat. 😭❤️
     for(let k=0;k<55;k++) particles.push(makeParticle());
 
     function loop(){
-      ctx.clearRect(0,0,W,H);
+      ctx.clearRect(0,0,CW,CH);
       for(const p of particles){
         p.y -= p.vy; p.x += p.vx;
-        if(p.y < -10){p.y = H+10; p.x = rand(0,W);}
-        if(p.x < -10) p.x = W+10;
-        if(p.x > W+10) p.x = -10;
+        if(p.y < -10){p.y = CH+10; p.x = rand(0,CW);}
+        if(p.x < -10) p.x = CW+10;
+        if(p.x > CW+10) p.x = -10;
 
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
@@ -447,26 +464,27 @@ Saya sayang awak… banyak sangat. 😭❤️
 
     function burst(n=10){
       for(let b=0;b<n;b++){
-        particles.push(makeParticle(W/2+rand(-40,40), H/2+rand(-40,40), true));
+        particles.push(makeParticle(CW/2+rand(-40,40), CH/2+rand(-40,40), true));
       }
-      if(particles.length>130) particles = particles.slice(particles.length-130);
+      if(particles.length>140) particles = particles.slice(particles.length-140);
     }
 
-    // ---- Confetti burst (cute)
-    function confettiBurst(count=60){
+    function confettiBurst(count=80){
       for(let i=0;i<count;i++){
         particles.push({
-          x: rand(0,W),
-          y: rand(H*0.6,H*0.9),
+          x: rand(0,CW),
+          y: rand(CH*0.55,CH*0.9),
           r: rand(1.8,4.2),
           vy: rand(0.8,2.2),
           vx: rand(-1.2,1.2),
-          a: rand(0.5,0.95)
+          a: rand(0.55,0.98)
         });
       }
-      if(particles.length>170) particles = particles.slice(particles.length-170);
+      if(particles.length>190) particles = particles.slice(particles.length-190);
     }
-    document.getElementById("btnConfetti").addEventListener("click", ()=> confettiBurst(80));
+
+    // set initial No position random once for fun
+    moveNo();
   </script>
 </body>
 </html>
