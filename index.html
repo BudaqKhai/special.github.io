@@ -1,51 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Happy Birthday ❤️</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial;
-      background: linear-gradient(pink, purple);
-      color: white;
-    }
-    img {
-      border-radius: 20px;
-      margin-top: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      background: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  text-align: center;
+  color: #fff;
+}
+
+.container {
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+.typing {
+  font-size: 1.2em;
+  margin-top: 10px;
+  min-height: 30px;
+}
+
+.gallery {
+  margin-top: 30px;
+}
+
+.gallery img {
+  width: 120px;
+  margin: 10px;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
+
+button {
+  margin-top: 30px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  background: white;
+  color: #ff6b81;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#secret {
+  margin-top: 20px;
+  display: none;
+  font-size: 1.2em;
+}
+</style>
+
 </head>
 
 <body>
 
-  <h1>Happy Birthday Sayang 🎂</h1>
-  <p>Terima kasih sebab hadir dalam hidup aku ❤️</p>
+<div class="container">
 
-  <img src="gambar.jpg" width="250">
+<h1>Happy Birthday Sayang 🎂</h1>
 
-  <br><br>
+<div class="typing" id="typing"></div>
 
-  <button onclick="showMessage()">Klik sini 😏</button>
+<div class="gallery">
+  <img src="https://via.placeholder.com/120">
+  <img src="https://via.placeholder.com/120">
+  <img src="https://via.placeholder.com/120">
+</div>
 
-  <p id="msg"></p>
+<button onclick="showSecret()">Klik sini 😏</button>
 
-  <audio autoplay loop>
-    <source src="lagu.mp3" type="audio/mpeg">
-  </audio>
+<div id="secret">
+  Aku sayang kau sampai bila-bila 💕
+</div>
 
-  <script>
-    function showMessage() {
-      document.getElementById("msg").innerHTML =
-      "Aku sayang kau sampai bila-bila 💕";
-    }
-  </script>
+</div>
+
+<audio autoplay loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const text = "Terima kasih sebab hadir dalam hidup aku ❤️";
+let i = 0;
+
+function typingEffect() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typingEffect, 50);
+  }
+}
+
+typingEffect();
+
+function showSecret() {
+  document.getElementById("secret").style.display = "block";
+}
+</script>
 
 </body>
 </html>
