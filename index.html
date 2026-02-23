@@ -1,111 +1,462 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-<meta charset="UTF-8">
-<title>For You ❤️</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday ❤️</title>
+  <style>
+    :root{
+      --glass: rgba(255,255,255,.14);
+      --glass2: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.25);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.75);
+      --shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      min-height:100vh;
+      background: radial-gradient(1200px 800px at 20% 10%, #ffd1dc 0%, transparent 60%),
+                  radial-gradient(1200px 800px at 80% 20%, #c7d2fe 0%, transparent 55%),
+                  radial-gradient(1000px 700px at 60% 80%, #fbcfe8 0%, transparent 60%),
+                  linear-gradient(135deg, #ff5fa2, #7c3aed);
+      overflow-x:hidden;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  text-align: center;
-  color: #fff;
-}
+    /* floating subtle glow blobs */
+    .blob{
+      position:absolute; inset:auto;
+      width:420px; height:420px;
+      filter: blur(60px);
+      opacity:.35;
+      border-radius: 999px;
+      animation: float 10s ease-in-out infinite;
+      pointer-events:none;
+      z-index:0;
+    }
+    .blob.b1{left:-120px; top:-120px; background:#ffd1dc;}
+    .blob.b2{right:-140px; top:120px; background:#a5b4fc; animation-duration: 12s;}
+    .blob.b3{left:20%; bottom:-180px; background:#fbcfe8; animation-duration: 14s;}
+    @keyframes float{
+      0%,100%{transform: translate(0,0) scale(1)}
+      50%{transform: translate(30px,-20px) scale(1.06)}
+    }
 
-.container {
-  padding: 40px 20px;
-}
+    canvas#hearts{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:1;
+    }
 
-h1 {
-  font-size: 2.5em;
-}
+    .wrap{
+      position:relative;
+      z-index:2;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 16px 80px;
+    }
 
-.typing {
-  font-size: 1.2em;
-  margin-top: 10px;
-  min-height: 30px;
-}
+    .card{
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      border-radius: 26px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow:hidden;
+    }
 
-.gallery {
-  margin-top: 30px;
-}
+    .hero{
+      padding: 26px 18px;
+      text-align:center;
+    }
+    .badge{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.18);
+      font-weight:600;
+      letter-spacing:.2px;
+      margin-bottom: 14px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: #fff;
+      opacity:.85;
+      box-shadow: 0 0 16px rgba(255,255,255,.8);
+    }
 
-.gallery img {
-  width: 120px;
-  margin: 10px;
-  border-radius: 15px;
-  transition: 0.3s;
-}
+    h1{
+      margin: 10px 0 6px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height:1.06;
+      letter-spacing:-.6px;
+    }
+    .sub{
+      margin: 0 auto;
+      max-width: 720px;
+      font-size: clamp(14px, 2.3vw, 18px);
+      color: var(--muted);
+    }
 
-.gallery img:hover {
-  transform: scale(1.1);
-}
+    .typing{
+      margin: 18px auto 0;
+      max-width: 760px;
+      font-size: clamp(16px, 2.6vw, 20px);
+      min-height: 32px;
+      color: rgba(255,255,255,.92);
+    }
 
-button {
-  margin-top: 30px;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 20px;
-  background: white;
-  color: #ff6b81;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .actions{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top: 18px;
+    }
+    .btn{
+      border:0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor:pointer;
+      transition: transform .15s ease, filter .15s ease, background .2s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+    .btn:active{transform: scale(.98)}
+    .btn.primary{
+      background: rgba(255,255,255,.92);
+      color: #7c3aed;
+    }
+    .btn.ghost{
+      background: rgba(0,0,0,.18);
+      color: #fff;
+      border:1px solid rgba(255,255,255,.20);
+    }
+    .btn:hover{filter: brightness(1.05)}
 
-#secret {
-  margin-top: 20px;
-  display: none;
-  font-size: 1.2em;
-}
-</style>
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.16);
+      margin: 0;
+    }
 
+    .section{
+      padding: 20px 18px 26px;
+    }
+    .section h2{
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -.2px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+    @media (max-width: 820px){
+      .grid{grid-template-columns: 1fr;}
+    }
+
+    .mini{
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .mini p{
+      margin: 8px 0 0;
+      color: rgba(255,255,255,.82);
+      line-height: 1.55;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 520px){
+      .gallery{grid-template-columns: repeat(2, 1fr);}
+    }
+    .photo{
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      position:relative;
+      aspect-ratio: 1 / 1;
+      cursor:pointer;
+      transform: translateZ(0);
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .photo:hover{transform: scale(1.02); filter: brightness(1.03)}
+    .photo img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+    }
+    .photo::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,.35));
+      opacity:.9;
+      pointer-events:none;
+    }
+
+    .secret{
+      display:none;
+      margin-top: 12px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.20);
+      line-height:1.6;
+      font-size: 16px;
+    }
+
+    .footer{
+      text-align:center;
+      color: rgba(255,255,255,.72);
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.72);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 20;
+    }
+    .lightbox img{
+      max-width: min(920px, 92vw);
+      max-height: 80vh;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: 0 22px 70px rgba(0,0,0,.55);
+    }
+    .lightbox .close{
+      position:absolute;
+      top: 16px; right: 16px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.18);
+      color:#fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor:pointer;
+      font-weight: 800;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
 
-<div class="container">
+  <canvas id="hearts"></canvas>
 
-<h1>Happy Birthday Sayang 🎂</h1>
+  <div class="wrap">
+    <div class="card">
+      <div class="hero">
+        <div class="badge"><span class="dot"></span> Special Birthday Site</div>
+        <h1>Happy Birthday 🎂❤️</h1>
+        <p class="sub">
+          Website kecil ni aku buat khas untuk awak. Buka perlahan-lahan… sebab ada surprise 😏
+        </p>
+        <div class="typing" id="typing"></div>
 
-<div class="typing" id="typing"></div>
+        <div class="actions">
+          <button class="btn primary" id="btnSurprise">Klik Surprise 🎁</button>
+          <button class="btn ghost" id="btnMusic">▶ Play Music</button>
+        </div>
+        <p class="footer">Tip: klik gambar untuk zoom ✨</p>
+      </div>
 
-<div class="gallery">
-  <img src="https://via.placeholder.com/120">
-  <img src="https://via.placeholder.com/120">
-  <img src="https://via.placeholder.com/120">
-</div>
+      <div class="divider"></div>
 
-<button onclick="showSecret()">Klik sini 😏</button>
+      <div class="section">
+        <div class="grid">
+          <div class="mini">
+            <h2>💌 Untuk Awak</h2>
+            <p>
+              Terima kasih sebab sentiasa ada. Aku hargai semua benda kecil yang awak buat.
+              Hari ni hari awak — so jangan lupa senyum banyak-banyak.  
+              <br/><br/>
+              Kalau awak penat, rehat. Kalau awak down, aku ada.  
+              <b>Aku sayang awak</b> 🌙✨
+            </p>
 
-<div id="secret">
-  Aku sayang kau sampai bila-bila 💕
-</div>
+            <div class="secret" id="secret">
+              <b>Surprise message unlocked 😭❤️</b><br/>
+              “Aku mungkin tak perfect… tapi aku ikhlas sayang awak.  
+              Semoga tahun ni semua impian awak jadi kenyataan.  
+              Happy birthday sayang 💕”
+            </div>
+          </div>
 
-</div>
+          <div class="mini">
+            <h2>📸 Memories</h2>
+            <p style="margin:0 0 10px;color:rgba(255,255,255,.82)">
+              (Aku guna file yang kau dah upload: gambar1.jpg, gambar2.jpg, gambar3.jpg)
+            </p>
+            <div class="gallery">
+              <div class="photo"><img src="gambar1.jpg" alt="gambar1"></div>
+              <div class="photo"><img src="gambar2.jpg" alt="gambar2"></div>
+              <div class="photo"><img src="gambar3.jpg" alt="gambar3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<audio autoplay loop>
-  <source src="lagu.mp3" type="audio/mpeg">
-</audio>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="close" id="lbClose">Close ✖</button>
+      <img id="lbImg" src="" alt="preview">
+    </div>
 
-<script>
-const text = "Terima kasih sebab hadir dalam hidup aku ❤️";
-let i = 0;
+    <!-- Audio -->
+    <audio id="music" loop>
+      <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+  </div>
 
-function typingEffect() {
-  if (i < text.length) {
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typingEffect, 50);
-  }
-}
+  <script>
+    // Typing effect
+    const typingEl = document.getElementById("typing");
+    const text = "Terima kasih sebab hadir dalam hidup aku ❤️  |  Semoga hari ni jadi hari paling bahagia untuk awak ✨";
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        typingEl.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 40);
+      }
+    }
+    type();
 
-typingEffect();
+    // Surprise reveal
+    document.getElementById("btnSurprise").addEventListener("click", () => {
+      const secret = document.getElementById("secret");
+      secret.style.display = "block";
+      secret.scrollIntoView({behavior:"smooth", block:"center"});
+      burst(18);
+    });
 
-function showSecret() {
-  document.getElementById("secret").style.display = "block";
-}
-</script>
+    // Music play (autoplay blocked usually)
+    const music = document.getElementById("music");
+    const btnMusic = document.getElementById("btnMusic");
+    let playing = false;
 
+    async function toggleMusic() {
+      try {
+        if (!playing) {
+          await music.play();
+          playing = true;
+          btnMusic.textContent = "⏸ Pause Music";
+          burst(10);
+        } else {
+          music.pause();
+          playing = false;
+          btnMusic.textContent = "▶ Play Music";
+        }
+      } catch (e) {
+        alert("Browser block autoplay. Tekan sekali lagi ya 😊");
+      }
+    }
+    btnMusic.addEventListener("click", toggleMusic);
+
+    // Lightbox for images
+    const lb = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    document.querySelectorAll(".photo img").forEach(img => {
+      img.addEventListener("click", () => {
+        lbImg.src = img.src;
+        lb.style.display = "flex";
+      });
+    });
+    document.getElementById("lbClose").addEventListener("click", () => lb.style.display = "none");
+    lb.addEventListener("click", (e) => { if (e.target === lb) lb.style.display = "none"; });
+
+    // Hearts particles (soft floating dots)
+    const canvas = document.getElementById("hearts");
+    const ctx = canvas.getContext("2d");
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth * devicePixelRatio;
+      H = canvas.height = window.innerHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+    // Safer resize (avoid repeated scaling)
+    function resizeSafe(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      W = canvas.width; H = canvas.height;
+    }
+    resizeSafe();
+    window.addEventListener("resize", resizeSafe);
+
+    function rand(min, max){ return Math.random()*(max-min)+min; }
+
+    function makeParticle(x, y, big=false){
+      return {
+        x: x ?? rand(0, W),
+        y: y ?? rand(0, H),
+        r: big ? rand(3,6) : rand(1.2,3.2),
+        vy: rand(0.2, 0.8),
+        vx: rand(-0.25, 0.25),
+        a: rand(0.25, 0.85)
+      };
+    }
+
+    // init
+    for(let k=0;k<55;k++) particles.push(makeParticle());
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of particles){
+        p.y -= p.vy;
+        p.x += p.vx;
+
+        if(p.y < -10) { p.y = H + 10; p.x = rand(0, W); }
+        if(p.x < -10) p.x = W + 10;
+        if(p.x > W + 10) p.x = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255, 192, 203, ${p.a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // Small burst when click
+    function burst(n=12){
+      for(let b=0;b<n;b++){
+        particles.push(makeParticle(W/2 + rand(-40,40), H/2 + rand(-40,40), true));
+      }
+      // keep size under control
+      if(particles.length > 120) particles = particles.slice(particles.length - 120);
+    }
+  </script>
 </body>
 </html>
